@@ -1,4 +1,5 @@
 <!--Django Filters: https://docs.djangoproject.com/en/4.0/ref/templates/language/ -->
+<!--Django Template Inheritance: https://consideratecode.com/2018/04/17/django-template-inheritance/-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,15 +7,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
-    <link rel="stylesheet" href="{% static "css/app.css" %}">
 
-    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+
+    <title>{% block title %}LifeFitness{% endblock %}</title>
 </head>
 <body>
-    {% block body_content %}{% endblock body_content %}
+    {% block navigation_bar %}
+    <div>
+        
+    </div>
+    {% endblock navigation_bar %}
+
+    {% block body_content %}
+    <div>
+
+    </div>
+    {% endblock body_content %}
+
     
-    {% block scripts %}{% endblock scripts %}
+    {% block scripts %}
+    
+    {% endblock scripts %}
 </body>
 </html>
