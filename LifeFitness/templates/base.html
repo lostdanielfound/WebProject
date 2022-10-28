@@ -11,6 +11,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
     <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/fitness-icon.ico' %}" />
 
     <title>{% block title %}LifeFitness{% endblock %}</title>
 </head>
@@ -23,12 +24,13 @@
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Account</a></li>
                 <li><a href="#">Forum</a></li>
+                <li><a href="#">About Us</a></li>
             </ul>
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
             </ul>
         </div>
     </div>
