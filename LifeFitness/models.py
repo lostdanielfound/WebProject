@@ -9,10 +9,10 @@ from django.db.models.signals import post_save
 class FitnessProfile(models.Model): 
     currentheight = models.IntegerField(default=0) # current height of the fitness user
     currentWeight = models.IntegerField(default=0) # current weight of the fitness user
-    BMI = models.SmallIntegerField(default=0) # BMI score of the fitness user
+    BMI = models.IntegerField(default=0) # BMI score of the fitness user
     goalWeight = models.IntegerField(default=0) # goal weight the fitness user wants to reach
     
-    #FitnessUser is an inheritance User model, will inheriant username, password, etc attributes. 
+    # FitnessUser is an inheritance User model, will inheriant username, password, etc attributes. 
     FitnessUser = models.OneToOneField(User, on_delete=models.CASCADE) 
     
     # Upon User model is saved, if it was just created,

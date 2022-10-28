@@ -1,10 +1,27 @@
 from pyexpat.errors import messages
 from django.shortcuts import render
-from LifeFitness.forms import CreateUserForm
+from LifeFitness.forms import CreateUserForm, FitnessUserForm, FitnessProfileForm
 from django.http import HttpResponse
 
 def home(request):
     return render(request, 'LifeFitness/homepage.html')
+
+def fitnessuserpage(request):
+    user_form = FitnessUserForm(instance=request.user)
+    profile_form = FitnessProfileForm(instance=request.user.fitnessprofileform)
+
+def account(request):
+    # user form that is based off the attributes from FitnessUser model
+    fitnessuser_form = FitnessUserForm(instance=request.fitnessuser)
+
+    # profile form that is based off the attributes from Fi
+    fitnessprofile_form = FitnessProfileForm(instance=request.user.fitnessprofile)
+    context = {
+        "fitnessuser": request.fitnessuser, 
+        "fitnessuser_form": fitnessuser_form, 
+        "fitnessprofile_form": fitnessprofile_form
+    }
+    return render(request, 'LifeFitness/account.html', context=context)
 
 def login(request):
     context = {}
