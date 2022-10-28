@@ -1,4 +1,6 @@
+from pyexpat.errors import messages
 from django.shortcuts import render
+from LifeFitness.forms import CreateUserForm
 from django.http import HttpResponse
 
 def home(request):
@@ -9,6 +11,15 @@ def login(request):
     return render(request, 'LifeFitness/login.html', context=context)
 
 def signup(request): 
-    context = {}
+    if request.POST == 'POST':
+        form = CreateUserForm()
+        if form.is_valid():
+            form.save()
+    else:
+        form = CreateUserForm()
+
+    context = {
+        'form': form
+    }
     return render(request, 'LifeFitness/signup.html', context=context)
 
