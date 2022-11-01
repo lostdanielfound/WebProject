@@ -1,5 +1,4 @@
 # Form guide: https://ordinarycoders.com/django-custom-user-profile#Creating%20a%20user%20page
-
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from LifeFitness.models import FitnessProfile
@@ -21,3 +20,7 @@ class FitnessProfileForm(forms.ModelForm):
     class Meta:
         model = FitnessProfile
         fields = ('currentheight', 'currentWeight', 'BMI', 'goalWeight')
+
+class LoginForm(forms.Form):
+    Username = forms.CharField(label="Username", max_length=200)
+    Password = forms.CharField(Label="Password", max_length=200)

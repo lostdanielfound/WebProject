@@ -1,3 +1,4 @@
 from django.contrib import admin
+from LifeFitness.models import FitnessProfile
 
-# Register your models here.
+admin.site.register(FitnessProfile)
