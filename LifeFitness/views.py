@@ -1,3 +1,5 @@
+# https://studygyaan.com/django/how-to-extend-django-user-model
+# users = User.objects.all().select_related('profile')
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from LifeFitness.models import FitnessProfile
