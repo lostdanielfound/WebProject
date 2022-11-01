@@ -13,23 +13,9 @@ def fitnessuserpage(request):
     user_form = FitnessUserForm(instance=request.user)
     profile_form = FitnessProfileForm(instance=request.user.fitnessprofileform)
 
-def account(request):
-    # user form that is based off the attributes from FitnessUser model
-    fitnessuser_form = FitnessUserForm(instance=request.fitnessuser)
-
-    # profile form that is based off the attributes from Fi
-    fitnessprofile_form = FitnessProfileForm(instance=request.user.fitnessprofile)
-
-    context = {
-        "fitnessuser": request.fitnessuser, 
-        "fitnessuser_form": fitnessuser_form, 
-        "fitnessprofile_form": fitnessprofile_form
-    }
-    return render(request, 'LifeFitness/account.html', context=context)
-
 def login(request):
 
-    #If user sumbitted post request
+    # If user sumbitted post request
     if(request.method == "POST"):
         form = LoginForm(request.POST)
         if form.is_valid(): # Check to see if form is vaild from POST 
@@ -69,3 +55,25 @@ def signup(request):
     }
     return render(request, 'LifeFitness/signup.html', context=context)
 
+def account(request):
+
+    # IF the user has not Logged in yet, they should be sent 
+    # to the login page to login. 
+    # Else they should be greated with they Profile info.
+    # Read https://docs.djangoproject.com/en/4.1/ref/request-response/ for request attribute details
+
+    if not request.user.is_authenticated: 
+        login(request)
+
+    # user form that is based off the attributes from FitnessUser model
+    fitnessuser_form = FitnessUserForm(instance=request.fitnessuser)
+
+    # profile form that is based off the attributes from Fi
+    fitnessprofile_form = FitnessProfileForm(instance=request.user.fitnessprofile)
+
+    context = {
+        "fitnessuser": request.fitnessuser, 
+        "fitnessuser_form": fitnessuser_form, 
+        "fitnessprofile_form": fitnessprofile_form
+    }
+    return render(request, 'LifeFitness/account.html', context=context)
