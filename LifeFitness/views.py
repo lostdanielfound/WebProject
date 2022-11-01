@@ -7,15 +7,13 @@ from LifeFitness.forms import CreateUserForm, FitnessUserForm, FitnessProfileFor
 from django.http import HttpResponse
 
 def home(request):
-    return render(request, 'LifeFitness/homepage.html')
+    return render(request, 'LifeFitness/homepage.html', context={ request.user: 'user'})
 
 def fitnessuserpage(request):
     user_form = FitnessUserForm(instance=request.user)
     profile_form = FitnessProfileForm(instance=request.user.fitnessprofileform)
 
 def login(request):
-
-    # If user sumbitted post request
     if(request.method == "POST"):
         form = LoginForm(request.POST)
         if form.is_valid(): # Check to see if form is vaild from POST 
@@ -36,19 +34,32 @@ def login(request):
     form = LoginForm()
 
     context = {
-        "Title": Title, 
         "form": form
     }
 
     return render(request, 'LifeFitness/login.html', context=context)
 
+def logout(request):
+    if request.user.is_authenticated:
+        auth.logout(request)
+        return redirect('/') #redirects user back to homepage
+
 def signup(request): 
-    if request.POST == 'POST':
+    if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            print('Successfully sign in')
+            user = form.save() # Getting the user back to login user
+            print('Successfully sign up')
+
+            auth.login(request, user) # login User
+            print('Successful login')
+
             return redirect('/')
+        else: 
+            # Should redirect the user back to the sign up 
+            # screen to try to reenter their data again. 
+            print('Unsuccessfully data entry')
+            return redirect('/signup')
     else:
         form = CreateUserForm()
         
@@ -66,17 +77,15 @@ def account(request):
     # Read https://docs.djangoproject.com/en/4.1/ref/request-response/ for request attribute details
 
     if not request.user.is_authenticated: 
-        login(request)
+        return redirect('/login')
 
     # user form that is based off the attributes from FitnessUser model
-    fitnessuser_form = FitnessUserForm(instance=request.fitnessuser)
+    # fitnessuser_form = FitnessUserForm(instance=request.fitnessuser)
 
     # profile form that is based off the attributes from Fi
-    fitnessprofile_form = FitnessProfileForm(instance=request.user.fitnessprofile)
+    # fitnessprofile_form = FitnessProfileForm(instance=request.user.fitnessprofile)
 
     context = {
-        "fitnessuser": request.fitnessuser, 
-        "fitnessuser_form": fitnessuser_form, 
-        "fitnessprofile_form": fitnessprofile_form
+        "user": request.user
     }
     return render(request, 'LifeFitness/account.html', context=context)

@@ -29,8 +29,14 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                <li><a href="/login">Login</a></li>
-                <li><a href="/signup">Sign Up</a></li>
+                {% if user.is_authenticated %}
+                    <li>Welcome back {{ user.username }}</li>
+                    <li><a class="alert button" href="/logout">logout</a></li>
+                    <li><a class="button" href="/signup">Sign up</a></li>
+                {% else %}
+                    <li><a class="success button" href="/login">Login</a></li>
+                    <li><a class="button" href="/signup">Sign Up</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
