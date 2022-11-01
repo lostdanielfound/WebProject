@@ -30,7 +30,6 @@ def login(request):
                 print('Unsuccessful login!')
                 return redirect('/')
 
-    Title = 'LifeFitness | Account'
     form = LoginForm()
 
     context = {
@@ -47,8 +46,10 @@ def logout(request):
 def signup(request): 
     if request.method == "POST":
         form = CreateUserForm(request.POST)
-        if form.is_valid():
+        fitnessform = FitnessProfileForm(request.POST)
+        if form.is_valid() & fitnessform.is_valid():
             user = form.save() # Getting the user back to login user
+            fitnessform.save() # save the fitness profile of the user
             print('Successfully sign up')
 
             auth.login(request, user) # login User
@@ -62,10 +63,11 @@ def signup(request):
             return redirect('/signup')
     else:
         form = CreateUserForm()
-        
+        fitnessform = FitnessProfileForm()
 
     context = {
-        'form': form
+        'form': form,
+        'fitnessform': fitnessform,
     }
     return render(request, 'LifeFitness/signup.html', context=context)
 
