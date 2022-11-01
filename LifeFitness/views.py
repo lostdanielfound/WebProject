@@ -44,11 +44,14 @@ def login(request):
 
 def signup(request): 
     if request.POST == 'POST':
-        form = CreateUserForm()
+        form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            print('Successfully sign in')
+            return redirect('/')
     else:
         form = CreateUserForm()
+        
 
     context = {
         'form': form

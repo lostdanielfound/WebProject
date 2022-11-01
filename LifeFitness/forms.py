@@ -23,4 +23,4 @@ class FitnessProfileForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     Username = forms.CharField(label="Username", max_length=200)
-    Password = forms.CharField(Label="Password", max_length=200)
+    Password = forms.CharField(label="Password", max_length=200)

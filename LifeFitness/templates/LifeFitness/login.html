@@ -1,1 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}LifeFitness | Login{% endblock title %}
+
+{% block body_content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <button class="submit success button" type="submit">Login</button>
+    </form>
+{% endblock body_content %}
