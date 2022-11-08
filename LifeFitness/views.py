@@ -3,15 +3,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from LifeFitness.models import FitnessProfile
-from LifeFitness.forms import CreateUserForm, FitnessUserForm, FitnessProfileForm, LoginForm
+from LifeFitness.forms import RegistrationForm, LoginForm, HealthForm
 from django.http import HttpResponse
 
 def home(request):
     return render(request, 'LifeFitness/homepage.html', context={ request.user: 'user'})
-
-def fitnessuserpage(request):
-    user_form = FitnessUserForm(instance=request.user)
-    profile_form = FitnessProfileForm(instance=request.user.fitnessprofileform)
 
 def login(request):
     if(request.method == "POST"):
@@ -43,31 +39,42 @@ def logout(request):
         auth.logout(request)
         return redirect('/') #redirects user back to homepage
 
+def healthsignup(request): 
+    if request.methed == "POST":
+        health_form = HealthForm(request.POST)
+    else:
+        health_form = HealthForm()
+
+    # Once user comes to this page, they should be logged in 
+    # we can setup the onetoone healthForm that way thorugh request.user
+    context = {
+        'health_form': HealthForm,
+    }
+    
+    return render(request, '/healthsignup')
+
 def signup(request): 
     if request.method == "POST":
-        form = CreateUserForm(request.POST)
-        fitnessform = FitnessProfileForm(request.POST)
-        if form.is_valid() & fitnessform.is_valid():
-            user = form.save() # Getting the user back to login user
-            fitnessform.save() # save the fitness profile of the user
+        Registration_form = RegistrationForm(request.POST)
+        if Registration_form.is_valid():
+            # Getting the user back to login user
+            user = Registration_form.save() # save the fitness profile of the user
             print('Successfully sign up')
 
             auth.login(request, user) # login User
             print('Successful login')
 
-            return redirect('/')
+            return healthsignup(request)
         else: 
             # Should redirect the user back to the sign up 
             # screen to try to reenter their data again. 
             print('Unsuccessfully data entry')
             return redirect('/signup')
     else:
-        form = CreateUserForm()
-        fitnessform = FitnessProfileForm()
+        Registration_form = RegistrationForm()
 
     context = {
-        'form': form,
-        'fitnessform': fitnessform,
+        'Registration_form': Registration_form,
     }
     return render(request, 'LifeFitness/signup.html', context=context)
 
