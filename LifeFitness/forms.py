@@ -5,7 +5,7 @@ from LifeFitness.models import FitnessProfile
 from django import forms
 
 class RegistrationForm(UserCreationForm):
-    
+
     class Meta:
         model = get_user_model()
         fields = ('username', 'password1', 'password2')
@@ -14,21 +14,20 @@ class RegistrationForm(UserCreationForm):
         user = super().save(commit=False)
         if commit: 
             user.save() 
-        return user
+        return user # return user to login under successfully creation 
 
-class HealthForm(forms.Form):
+class HealthForm(forms.ModelForm):
 
     class Meta:
         model = FitnessProfile
-        fields = ('currentheight', 'currentWeight', 'BMI', 'goalWeight')
+        fields = ['currentheight', 'currentWeight', 'BMI', 'goalWeight']
 
-    def save(self, request):
-        fit_user = FitnessProfile
-        fit_user.currentheight = self.cleaned_data['currentheight']
-        fit_user.currentWeight = self.cleaned_data['currentWeight']
-        fit_user.BMI = self.cleaned_data['BMI']
-        fit_user.goalWeight = self.cleaned_data['goalWeight']
-        fit_user.fitnessUser = request.user
+    def save(self, current_user):
+        current_user.fitnessprofile.currentheight = self.cleaned_data['currentheight']
+        current_user.fitnessprofile.currentWeight = self.cleaned_data['currentWeight']
+        current_user.fitnessprofile.BMI = self.cleaned_data['BMI']
+        current_user.fitnessprofile.goalWeight = self.cleaned_data['goalWeight']
+        current_user.fitnessprofile.save()
 
 class LoginForm(forms.Form):
     Username = forms.CharField(label="Username", max_length=200)

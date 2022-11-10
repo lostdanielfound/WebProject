@@ -2,8 +2,7 @@
 # users = User.objects.all().select_related('profile')
 from django.shortcuts import render, redirect
 from django.contrib import auth
-from LifeFitness.models import FitnessProfile
-from LifeFitness.forms import RegistrationForm, LoginForm, HealthForm
+from .forms import RegistrationForm, LoginForm, HealthForm
 from django.http import HttpResponse
 
 def home(request):
@@ -40,18 +39,22 @@ def logout(request):
         return redirect('/') #redirects user back to homepage
 
 def healthsignup(request): 
-    if request.methed == "POST":
+    if request.method == "POST":
         health_form = HealthForm(request.POST)
+        if health_form.is_valid():
+            current_user = request.user
+            health_form.save(current_user)
+            return redirect('/')
     else:
         health_form = HealthForm()
 
     # Once user comes to this page, they should be logged in 
     # we can setup the onetoone healthForm that way thorugh request.user
     context = {
-        'health_form': HealthForm,
+        'health_form': health_form,
     }
     
-    return render(request, '/healthsignup')
+    return render(request, 'LifeFitness/healthsignup.html', context=context)
 
 def signup(request): 
     if request.method == "POST":
@@ -64,7 +67,7 @@ def signup(request):
             auth.login(request, user) # login User
             print('Successful login')
 
-            return healthsignup(request)
+            return redirect('/healthsignup')
         else: 
             # Should redirect the user back to the sign up 
             # screen to try to reenter their data again. 
