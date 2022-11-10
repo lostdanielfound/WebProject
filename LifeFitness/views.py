@@ -9,29 +9,28 @@ def home(request):
     return render(request, 'LifeFitness/homepage.html', context={ request.user: 'user'})
 
 def login(request):
+    # POST REQUEST
     if(request.method == "POST"):
-        form = LoginForm(request.POST)
-        if form.is_valid(): # Check to see if form is vaild from POST 
+        form = LoginForm(request.POST) 
+        if form.is_valid(): 
+            # Attempt to Authenticate the User
             username = form.cleaned_data['Username']
             password = form.cleaned_data['Password']
             user = auth.authenticate(request, username=username, password=password)
             
-            #Check to see if the user does exist
-            if user is not None: 
-                print('Successful Login')
+            # Check to see if the user does exist
+            if user is not None:
                 auth.login(request, user)
-                return redirect('/')
+                if user.is_authenticated: 
+                    print('* SUCCESSFUL Login of User *: ' + user.get_username())
+                    return redirect('/')
             else:
-                print('Unsuccessful login!')
-                return redirect('/')
+                print('~ FAILED User does not exist ~: ' + username)
+                return redirect('/login')
 
-    form = LoginForm()
-
-    context = {
-        "form": form
-    }
-
-    return render(request, 'LifeFitness/login.html', context=context)
+    # GET REQUEST
+    form = LoginForm() 
+    return render(request, 'LifeFitness/login.html', context={"form": form})
 
 def logout(request):
     if request.user.is_authenticated:
