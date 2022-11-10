@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from .forms import RegistrationForm, LoginForm, HealthForm
 from django.http import HttpResponse
+from math import pow
 
 def home(request):
     return render(request, 'LifeFitness/homepage.html', context={ request.user: 'user'})
@@ -24,6 +25,8 @@ def login(request):
                 if user.is_authenticated: 
                     print('* SUCCESSFUL Login of User *: ' + user.get_username())
                     return redirect('/')
+                else: 
+                    print('* FAILED Could not log User *: ' + user.get_username()) # This should never run because is_authenticated is true always
             else:
                 print('~ FAILED User does not exist ~: ' + username)
                 return redirect('/login')
@@ -34,8 +37,10 @@ def login(request):
 
 def logout(request):
     if request.user.is_authenticated:
-        auth.logout(request)
-        return redirect('/') #redirects user back to homepage
+        auth.logout(request) # Logs User out of current session
+        return redirect('/') # redirects user back to homepage
+    else: 
+        return redirect('/') # This shouldn't ever run since logout button isn't available to users who are not logged in.
 
 def healthsignup(request): 
     if request.method == "POST":
@@ -43,28 +48,37 @@ def healthsignup(request):
         if health_form.is_valid():
             current_user = request.user
             health_form.save(current_user)
-            return redirect('/')
+            return redirect('/account')
+        else: 
+            # Should redirect the user back to the sign up 
+            # screen to try to reenter their data again. 
+            print('Unsuccessfully data entry')
+            default_error = 'Unsuccessful data entry, please try again'
+            context = {
+                'default_error': default_error 
+            }
+
+            return render(request, 'LifeFitness/healthsignup.html', context=context)
     else:
         health_form = HealthForm()
 
     # Once user comes to this page, they should be logged in 
-    # we can setup the onetoone healthForm that way thorugh request.user
-    context = {
-        'health_form': health_form,
-    }
-    
-    return render(request, 'LifeFitness/healthsignup.html', context=context)
+    # we can setup the onetoone healthForm that way through request.user    
+    return render(request, 'LifeFitness/healthsignup.html', context={'health_form': health_form})
 
 def signup(request): 
     if request.method == "POST":
         Registration_form = RegistrationForm(request.POST)
         if Registration_form.is_valid():
             # Getting the user back to login user
-            user = Registration_form.save() # save the fitness profile of the user
-            print('Successfully sign up')
+            user = Registration_form.save() # Creates User account and returns User
+            print('* SUCCESSFUL sign up *')
 
             auth.login(request, user) # login User
-            print('Successful login')
+            if user.is_authenticated: 
+                print('* SUCCESSFUL Login of User *: ' + user.get_username())
+            else: 
+                print('* FAILED Could not log User *: ' + user.get_username()) # This should never run because is_authenticated is true always
 
             return redirect('/healthsignup')
         else: 
@@ -75,13 +89,9 @@ def signup(request):
     else:
         Registration_form = RegistrationForm()
 
-    context = {
-        'Registration_form': Registration_form,
-    }
-    return render(request, 'LifeFitness/signup.html', context=context)
+    return render(request, 'LifeFitness/signup.html', context={'Registration_form': Registration_form})
 
 def account(request):
-
     # IF the user has not Logged in yet, they should be sent 
     # to the login page to login. 
     # Else they should be greated with they Profile info.
@@ -90,13 +100,10 @@ def account(request):
     if not request.user.is_authenticated: 
         return redirect('/login')
 
-    # user form that is based off the attributes from FitnessUser model
-    # fitnessuser_form = FitnessUserForm(instance=request.fitnessuser)
-
-    # profile form that is based off the attributes from Fi
-    # fitnessprofile_form = FitnessProfileForm(instance=request.user.fitnessprofile)
-
+    calculated_BMI = round((request.user.fitnessprofile.currentWeight * 0.45359237) / (pow(request.user.fitnessprofile.currentheight * 0.3048, 2)), 1)
     context = {
-        "user": request.user
+        'weight': request.user.fitnessprofile.currentWeight, 
+        'height': request.user.fitnessprofile.currentheight,
+        'BMI': calculated_BMI
     }
     return render(request, 'LifeFitness/account.html', context=context)

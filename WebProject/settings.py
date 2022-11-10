@@ -30,7 +30,11 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+CRISPY_TEMPLATE_PACK = 'foundation'
+
 INSTALLED_APPS = [
+    'crispy_forms',
+    "crispy_forms_foundation",
     'LifeFitness.apps.LifefitnessConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -122,3 +126,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from crispy_forms_foundation.settings import *

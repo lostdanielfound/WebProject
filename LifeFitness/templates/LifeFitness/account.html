@@ -2,11 +2,10 @@
 {% block title %}LifeFitness | Account{% endblock title %}
 
 {% block body_content %}
-    <h2>Account Page</h2>
-    <ul>
-    <li>Username: {{ user.username }}</li>
-    <li>Height: {{ user.fitnessprofile.currentheight }}</li>
-    <li>Weight: {{ user.fitnessprofile.currentWeight }}</li>
-    <li>BMI: {{ user.fitnessprofile.BMI }}</li>
-    </ul> 
+    <h2>Welcome back {{user.username}}</h2>
+    <div class=userinfo>
+        <p>Current Weight: {{weight}}</p>
+        <p>Current Height: {{height}}</p>
+        <p>BMI: {{BMI}}</p> 
+    </div>
 {% endblock body_content %}
