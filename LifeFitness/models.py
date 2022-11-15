@@ -27,14 +27,18 @@ class FitnessProfile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.fitnessprofile.save()
-    
+
 class Exercise(models.Model): 
     name = models.CharField(max_length=200) # name of the exercise
     description = models.TextField(max_length=1000) # description of the excersice 
-    # image = models.ImageField() 
     repCount = models.IntegerField(default=0) # number of complete reps per set in a workout
     setCount = models.IntegerField(default=0) # number of sets user will do during a workout
 
-
 class Workout(models.Model):
-    ... 
+    dataAndTime = models.DateTimeField() # Set time to start the workout 
+    exerciseList = models.ManyToManyField(Exercise) 
+    fitnesuser = models.ForeignKey(User, on_delete=models.CASCADE) 
+
+class WorkoutReport(models.Model): 
+    duration = models.TimeField(auto_now=False, auto_now_add=False) # total duration of the workout
+    workoutID = models.OneToOneField(Workout, on_delete=models.CASCADE)
