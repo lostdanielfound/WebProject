@@ -28,3 +28,13 @@ class FitnessProfile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.fitnessprofile.save()
     
+class Exercise(models.Model): 
+    name = models.CharField(max_length=200) # name of the exercise
+    description = models.TextField(max_length=1000) # description of the excersice 
+    # image = models.ImageField() 
+    repCount = models.IntegerField(default=0) # number of complete reps per set in a workout
+    setCount = models.IntegerField(default=0) # number of sets user will do during a workout
+
+
+class Workout(models.Model):
+    ... 
