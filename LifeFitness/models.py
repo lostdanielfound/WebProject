@@ -27,6 +27,7 @@ class FitnessProfile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.fitnessprofile.save()
+        
 
 class Exercise(models.Model): 
     name = models.CharField(max_length=200) # name of the exercise
