@@ -37,3 +37,15 @@ class HealthForm(forms.ModelForm):
 class LoginForm(forms.Form):
     Username = forms.CharField(label="Username", max_length=200)
     Password = forms.CharField(label="Password", max_length=200)
+
+class CreateExercise(forms.Form):
+    Name = forms.CharField(label="Exercise name", max_length=100)
+    Description = forms.CharField(label="Description of workout", max_length=400)
+    RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
+    SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
+    
+class CreateWorkout(forms.Form):
+    ...
+
+
+
