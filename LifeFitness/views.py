@@ -2,7 +2,7 @@
 # users = User.objects.all().select_related('profile')
 from django.shortcuts import render, redirect
 from django.contrib import auth
-from .forms import RegistrationForm, LoginForm, HealthForm
+from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout
 from django.http import HttpResponse
 from math import pow
 
@@ -100,10 +100,20 @@ def account(request):
     if not request.user.is_authenticated: 
         return redirect('/login')
 
+    if request.method == "POST":
+        print(request.POST)
+
+    exerciseform = CreateExercise()
+    workoutform = CreateWorkout() 
+
     calculated_BMI = round((request.user.fitnessprofile.currentWeight * 0.45359237) / (pow(request.user.fitnessprofile.currentheight * 0.3048, 2)), 1)
     context = {
+        'workoutform': workoutform,
+        'exerciseform': exerciseform,
         'weight': request.user.fitnessprofile.currentWeight, 
         'height': request.user.fitnessprofile.currentheight,
         'BMI': calculated_BMI
     }
+    
+
     return render(request, 'LifeFitness/account.html', context=context)

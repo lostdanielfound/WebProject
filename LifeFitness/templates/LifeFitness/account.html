@@ -8,4 +8,25 @@
         <p>Current Height: {{height}}</p>
         <p>BMI: {{BMI}}</p> 
     </div>
+    <form class="createexercise" method="post">
+        {% csrf_token %}
+        <table>
+            {{exerciseform.as_table}}
+            <tr>
+                <td><button class="submit button" type="submit">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+    <form class="dateandtimeentry" method="post">
+        {% csrf_token %}
+        <table>
+            <tbody>
+                {{workoutform.as_table}}
+                <tr>
+                    <td><button class="submit button" type="submit">Submit</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    
 {% endblock body_content %}

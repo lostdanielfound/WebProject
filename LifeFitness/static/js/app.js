@@ -1,1 +1,1 @@
-$(document).foundation()
+$( "#id_Date_And_Time" ).datepicker();

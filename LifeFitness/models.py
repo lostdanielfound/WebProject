@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-
 class FitnessProfile(models.Model): 
     currentheight = models.IntegerField(default=0) # current height of the fitness user
     currentWeight = models.IntegerField(default=0) # current weight of the fitness user
@@ -43,3 +42,6 @@ class Workout(models.Model):
 class WorkoutReport(models.Model): 
     duration = models.TimeField(auto_now=False, auto_now_add=False) # total duration of the workout
     workoutID = models.OneToOneField(Workout, on_delete=models.CASCADE)
+
+class Timemodel(models.Model):
+    date_and_time_select = models.DateField()
