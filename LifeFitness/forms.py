@@ -40,12 +40,13 @@ class LoginForm(forms.Form):
 
 class CreateExercise(forms.Form):
     Name = forms.CharField(label="Exercise name", max_length=100)
-    Description = forms.CharField(label="Description of workout", max_length=400)
+    Description = forms.CharField(label="Description of workout", widget=forms.Textarea, max_length=400)
     RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
     SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
     
 class CreateWorkout(forms.Form):
-    ...
+    Date_And_Time = forms.DateTimeField(widget=forms.DateTimeInput)
 
 
+# https://stackoverflow.com/questions/3367091/whats-the-cleanest-simplest-to-get-running-datepicker-in-django
 
