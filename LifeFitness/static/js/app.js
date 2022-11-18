@@ -1,1 +1,1 @@
-$( "#id_Date_And_Time" ).datepicker();
+$( "#id_Date" ).datepicker();

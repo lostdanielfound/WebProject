@@ -1,9 +1,9 @@
 # Form guide: https://ordinarycoders.com/django-custom-user-profile#Creating%20a%20user%20page
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from LifeFitness.models import FitnessProfile, Timemodel
+from LifeFitness.models import FitnessProfile, Exercise
 from django import forms
-from LifeFitness.helpfunctions import convertBMI
+from LifeFitness.helpfunctions import convertBMI, ExerciseList
 
 class RegistrationForm(UserCreationForm):
 
@@ -44,20 +44,21 @@ class CreateExercise(forms.Form):
     RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
     SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
 
-class Date_and_time_input(forms.DateInput):
-    input_type = 'date'
+    def save(self):
+        newExercise = Exercise()
+        newExercise.name = self.cleaned_data['Name']
+        newExercise.description = self.cleaned_data['Description']
+        newExercise.repCount = self.cleaned_data['RepCount']
+        newExercise.setCount = self.cleaned_data['SetCount']
+        newExercise.save() 
 
-class timeanddatemodel(forms.ModelForm):
-    class Meta:
-        model = Timemodel
-        fields = ['date_and_time_select']
-        widget = {
-            'date_and_time_select': Date_and_time_input()
-        }
-    
 class CreateWorkout(forms.Form):
-    Date_And_Time = forms.DateTimeField(widget=forms.DateInput())
+    Name = forms.CharField(label="Session Name")
+    Date = forms.DateField(label="Workout Date", widget=forms.DateInput())
+    ExerciseList = forms.MultipleChoiceField(choices=ExerciseList())
 
+class PostWorkoutReport(forms.Form):
+    ...
 
 # https://stackoverflow.com/questions/3367091/whats-the-cleanest-simplest-to-get-running-datepicker-in-django
 

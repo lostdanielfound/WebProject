@@ -35,13 +35,12 @@ class Exercise(models.Model):
     setCount = models.IntegerField(default=0) # number of sets user will do during a workout
 
 class Workout(models.Model):
+    name = models.CharField(max_length=200,blank=True) # name of workout, not required
     dataAndTime = models.DateTimeField() # Set time to start the workout 
-    exerciseList = models.ManyToManyField(Exercise) 
-    fitnesuser = models.ForeignKey(User, on_delete=models.CASCADE) 
+    exerciseList = models.ManyToManyField(Exercise) # List of Exercises for the workout
+    fitnesuser = models.ForeignKey(User, on_delete=models.CASCADE) # User and workout connection, User can have multiple Workouts 
 
 class WorkoutReport(models.Model): 
     duration = models.TimeField(auto_now=False, auto_now_add=False) # total duration of the workout
     workoutID = models.OneToOneField(Workout, on_delete=models.CASCADE)
 
-class Timemodel(models.Model):
-    date_and_time_select = models.DateField()
