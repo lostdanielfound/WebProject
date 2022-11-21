@@ -53,9 +53,12 @@ class CreateExercise(forms.Form):
         newExercise.save() 
     
 class CreateWorkout(forms.Form):
-    
+    # LOOK INTO CHANGING ATTR PARAMETER IN FIELD 
     Name = forms.CharField(label="Session Name")
-    Date = forms.DateField(label="Workout Date", widget=forms.DateInput())
+    Date = forms.DateField(label="Workout Date", widget=forms.DateInput()) 
+
+    # LOOK INTO MAKING NEW MIGRATIONS WHEN UPDATING CHOICES LIST
+    # Note: A new migration is created each time the order of choices changes.
     Exlist = forms.MultipleChoiceField(widget=forms.SelectMultiple, choices=ExerciseList())
 
     def save(self):
