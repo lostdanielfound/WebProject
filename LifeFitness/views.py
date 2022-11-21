@@ -100,29 +100,31 @@ def account(request):
     if not request.user.is_authenticated: 
         return redirect('/login')
 
-
-
+    # NEED TO CHECK TO SEE IF 
+    # SITE IS GETTING UPDATED CORRECTLY 
+    # WITH THE NEW LIST
+    # PRETTY SURE NOT 
+   
     if request.method == "POST":
         exerciseform = CreateExercise(request.POST)
         workoutform = CreateWorkout(request.POST)
          
-        if exerciseform.is_valid(): 
+        if exerciseform.is_valid():
             exerciseform.save() # Create the new exercise
+            workoutform = CreateWorkout() # Fresh workout form after exercise creation        
             print('* SUCCESSFUL exercise creation *')
         elif workoutform.is_valid():
-            print('NOT AVAILABLE')
-            ...
-
-    exerciseform = CreateExercise()
-    workoutform = CreateWorkout() 
+            print(request.POST)
+            workoutform.save() # Create the new workout session 
+            exerciseform = CreateExercise() # Fresh workout form after Workout Creation
+            print('* SUCCESSFULY workout creation *')
 
     context = { 
-        'workoutform': workoutform,
-        'exerciseform': exerciseform,
+        'workoutform': CreateWorkout(),
+        'exerciseform': CreateExercise(),
         'weight': request.user.fitnessprofile.currentWeight, 
         'height': request.user.fitnessprofile.currentheight,
         'BMI': request.user.fitnessprofile.BMI
     }
-    
 
     return render(request, 'LifeFitness/account.html', context=context)

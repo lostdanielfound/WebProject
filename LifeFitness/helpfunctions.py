@@ -10,15 +10,14 @@ def convertBMI(weight, height):
 
 # Returns the current list of available Exercises 
 # Exercise List will be in the following List format: 
-# ExList = [
+# ExList = (
 #   (1, exercise.name), 
 #   (2, exercise.name), 
 #   (3, exercise.name), 
 #   ... 
-# ]
+# )
 def ExerciseList(): 
     ExList = []
     for exercise in Exercise.objects.all():
         ExList.append((exercise.pk, exercise.name))
-
-    return ExList
+    return (tuple(ExList))

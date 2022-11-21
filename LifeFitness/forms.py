@@ -1,7 +1,7 @@
 # Form guide: https://ordinarycoders.com/django-custom-user-profile#Creating%20a%20user%20page
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from LifeFitness.models import FitnessProfile, Exercise
+from LifeFitness.models import FitnessProfile, Exercise, Workout
 from django import forms
 from LifeFitness.helpfunctions import convertBMI, ExerciseList
 
@@ -51,11 +51,23 @@ class CreateExercise(forms.Form):
         newExercise.repCount = self.cleaned_data['RepCount']
         newExercise.setCount = self.cleaned_data['SetCount']
         newExercise.save() 
-
+    
 class CreateWorkout(forms.Form):
+    
     Name = forms.CharField(label="Session Name")
     Date = forms.DateField(label="Workout Date", widget=forms.DateInput())
-    ExerciseList = forms.MultipleChoiceField(choices=ExerciseList())
+    Exlist = forms.MultipleChoiceField(widget=forms.SelectMultiple, choices=ExerciseList())
+
+    def save(self):
+        newWorkout = Workout()
+        newWorkout.name = self.cleaned_data['Name']
+        newWorkout.Date = self.cleaned_data['Date']
+        newWorkout.save() # Save the workout before adding exercises
+
+        # Now add the workout list
+        for exercise in self.cleaned_data['Exlist']: 
+            newWorkout.exerciseList.add(exercise)
+        newWorkout.save()
 
 class PostWorkoutReport(forms.Form):
     ...
