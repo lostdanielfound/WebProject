@@ -120,8 +120,7 @@ def account(request):
             print('* SUCCESSFULY workout creation *')
 
     context = { 
-        'workoutform': CreateWorkout(),
-        'exerciseform': CreateExercise(),
+        'workouts': request.user.
         'weight': request.user.fitnessprofile.currentWeight, 
         'height': request.user.fitnessprofile.currentheight,
         'BMI': request.user.fitnessprofile.BMI

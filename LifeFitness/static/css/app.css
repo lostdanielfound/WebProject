@@ -1,0 +1,10 @@
+.base {
+    background-color:aquamarine;
+}
+
+.flexbox-item {
+    width: 100px;
+    border: 3px;
+    background-color: blue;
+    min-height: 40px;
+}

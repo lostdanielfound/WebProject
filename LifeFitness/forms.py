@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from LifeFitness.models import FitnessProfile, Exercise, Workout
 from django import forms
-from LifeFitness.helpfunctions import convertBMI, ExerciseList
+from LifeFitness.helpfunctions import convertBMI, CompleteExerciseList
 
 class RegistrationForm(UserCreationForm):
 
@@ -40,26 +40,21 @@ class LoginForm(forms.Form):
  
 class CreateExercise(forms.Form):
     Name = forms.CharField(label="Exercise name", max_length=100)
-    Description = forms.CharField(label="Description of workout", widget=forms.Textarea, max_length=400)
-    RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
-    SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
 
     def save(self):
         newExercise = Exercise()
         newExercise.name = self.cleaned_data['Name']
-        newExercise.description = self.cleaned_data['Description']
-        newExercise.repCount = self.cleaned_data['RepCount']
-        newExercise.setCount = self.cleaned_data['SetCount']
         newExercise.save() 
-    
-class CreateWorkout(forms.Form):
-    # LOOK INTO CHANGING ATTR PARAMETER IN FIELD 
-    Name = forms.CharField(label="Session Name")
-    Date = forms.DateField(label="Workout Date", widget=forms.DateInput()) 
 
-    # LOOK INTO MAKING NEW MIGRATIONS WHEN UPDATING CHOICES LIST
-    # Note: A new migration is created each time the order of choices changes.
-    Exlist = forms.MultipleChoiceField(widget=forms.SelectMultiple, choices=ExerciseList())
+class CreateWorkout(forms.Form):
+    Exercise = 
+    RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
+    SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
+
+class CreateWorkoutSession(forms.Form):
+    Name = forms.CharField(label="Session Name", help_text="Session Name")
+    Date = forms.DateField(label="Workout Date", widget=forms.DateInput()) 
+    Exlist = forms.MultipleChoiceField(widget=forms.SelectMultiple, choices=CompleteExerciseList())
 
     def save(self):
         newWorkout = Workout()
@@ -74,7 +69,6 @@ class CreateWorkout(forms.Form):
 
 class PostWorkoutReport(forms.Form):
     ...
-
 # https://stackoverflow.com/questions/3367091/whats-the-cleanest-simplest-to-get-running-datepicker-in-django
 
 # widgets: https://docs.djangoproject.com/en/4.1/ref/forms/widgets/#django.forms.TextInput
