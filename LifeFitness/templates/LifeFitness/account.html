@@ -3,25 +3,43 @@
 {% block title %}LifeFitness | Account{% endblock title %}
 
 {% block body_content %}
-    <div class="grid-x" >
-        <div class="container1 medium-6 large-4">
-            <h2>Welcome back {{user.username}}</h2>
+    <div class="title-container">
+        <h2>Welcome back {{user.username}}</h2>
+    </div>
+    <div class="parent-container">
+        <div class="child-container1">
+            <h3>Health Stats</h3>
             <p>Current Weight: {{weight}}</p>
             <p>Current Height: {{height}}</p>
             <p>BMI: {{BMI}}</p>
             <button class="button">Edit Profile</button> 
         </div>
-        <div class="container2 medium-6 large-4">
-            
+        <div class="child-container2">
             <p>Current Scheduled Workouts</p>
-            <div class="">
-
+            <div class="list-container">
+                <div class="div-child"></div>
+                <div class="div-child"></div>
+                <div class="div-child"></div> 
             </div>
         </div>
-        <div class="container3 medium-6 large-4">
+        <div class="child-container3">
             <p>Past Workouts</p>
-            <div class="">
-
+            <div class="list-container">
+               <div class="div-child">
+                    <div class="child-header">
+                        <p>Arm-day</p>
+                        <p>11/23/2000</p>  
+                    </div>
+                    <div class="child-content">
+                        <p>Grips --- Lat pulldowns --- lateral raises</p>
+                    </div>
+                </div>
+                <div class="div-child"></div>
+                <div class="div-child"></div>
+                <div class="div-child"></div> 
+                <div class="div-child"></div> 
+                <div class="div-child"></div> 
+                <div class="div-child"></div> 
             </div>
         </div>
    </div>

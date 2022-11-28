@@ -47,7 +47,7 @@ class CreateExercise(forms.Form):
         newExercise.save() 
 
 class CreateWorkout(forms.Form):
-    Exercise = 
+    Exercise = forms.MultipleChoiceField(label="Choice Exercise", choices=CompleteExerciseList())
     RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
     SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
 

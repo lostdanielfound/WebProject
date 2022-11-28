@@ -2,9 +2,73 @@
     background-color:aquamarine;
 }
 
-.flexbox-item {
-    width: 100px;
+.title-container {
+    padding: 5px;
+
+}
+
+.parent-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: pink;
+}
+
+.child-container1 {
+    width: 400px;
+    height: 300px;
+    background-color: blue;
+    border: 3;
+    border-color: aqua;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.child-container2 {
+    width: 400px;
+    height: 300px;
+    overflow-y: auto;
+    border-style: solid;
     border: 3px;
     background-color: blue;
-    min-height: 40px;
+}
+
+.child-container3 {
+    width: 400px;
+    height: 300px;
+    overflow-y: auto;
+    border: 3px;
+    background-color: blue;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(31, 122, 201);
+    justify-content: center;
+    align-items: center;
+}
+
+.div-child {
+    width: 95%;
+    min-height: 100px;
+    border: 20px;
+    border-color: rgb(153, 22, 22);
+    border-radius: 5px;
+    background-color: hsl(0, 11%, 66%);
+    margin: 5px;
+}
+
+.child-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.child-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 5px; 
 }

@@ -66,4 +66,5 @@ txaio==22.2.1
 typing_extensions==4.4.0
 urllib3==1.26.12
 wrapt==1.14.1
+xlrd
 zope.interface==5.5.0
