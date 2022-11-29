@@ -12,12 +12,16 @@
             <p>Current Weight: {{weight}}</p>
             <p>Current Height: {{height}}</p>
             <p>BMI: {{BMI}}</p>
-            <button class="button">Edit Profile</button> 
+            <p>Weight Goal: {{goal}}</p>
+            <button class="button">Edit Profile</button>
+            <button class="button">Create Workout Session</button>
         </div>
         <div class="child-container2">
             <p>Current Scheduled Workouts</p>
             <div class="list-container">
-                <div class="div-child"></div>
+                <div class="div-child">
+                    {{currentWorkouts}}
+                </div>
                 <div class="div-child"></div>
                 <div class="div-child"></div> 
             </div>

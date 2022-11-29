@@ -99,11 +99,6 @@ def account(request):
 
     if not request.user.is_authenticated: 
         return redirect('/login')
-
-    # NEED TO CHECK TO SEE IF 
-    # SITE IS GETTING UPDATED CORRECTLY 
-    # WITH THE NEW LIST
-    # PRETTY SURE NOT 
    
     if request.method == "POST":
         exerciseform = CreateExercise(request.POST)
@@ -119,10 +114,14 @@ def account(request):
             exerciseform = CreateExercise() # Fresh workout form after Workout Creation
             print('* SUCCESSFULY workout creation *')
 
+    currentWorkouts = request.user.workout_session
+
     context = { 
         'weight': request.user.fitnessprofile.currentWeight, 
         'height': request.user.fitnessprofile.currentheight,
-        'BMI': request.user.fitnessprofile.BMI
+        'BMI': request.user.fitnessprofile.BMI,
+        'goal': request.user.fitnessprofile.goalWeight,
+        'currentWorkouts': request.user.workout_session_set.all()
     }
 
     return render(request, 'LifeFitness/account.html', context=context)

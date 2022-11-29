@@ -34,7 +34,7 @@ class Exercise(models.Model):
     name = models.CharField(max_length=200, default="default_value") # name of the exercise
 
     def __str__(self):
-        return(self.name)
+        return(self.name + ' (' + str(self.pk) + ')')
 
 class Workout(models.Model):
     exerciseName = models.ForeignKey(Exercise, on_delete=models.CASCADE) # name of the exercise
@@ -42,9 +42,9 @@ class Workout(models.Model):
     setCount = models.IntegerField(default=0) # number of sets user will do during a workout
 
     def __str__(self):
-        return(self.name + " (" + str(self.pk) + ")" + " [" + str(self.setCount) + " ," + str(self.repCount) + "]" )
+        return(self.exerciseName.name + " (" + str(self.pk) + ")" + " [" + str(self.setCount) + " ," + str(self.repCount) + "]" )
 
-class Workout_Session(models.Model):
+class Workout_Session(models.Model): # User attribute is defined as workout_session_set
     name = models.CharField(max_length=200,blank=True) # name of workout, not required
     date = models.DateField(auto_now=True) # Set Date to start the workout 
     exerciseList = models.ManyToManyField(Workout) # List of Exercises for the workout
