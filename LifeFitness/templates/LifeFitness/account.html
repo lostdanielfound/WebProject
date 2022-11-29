@@ -13,17 +13,25 @@
             <p>Current Height: {{height}}</p>
             <p>BMI: {{BMI}}</p>
             <p>Weight Goal: {{goal}}</p>
-            <button class="button">Edit Profile</button>
-            <button class="button">Create Workout Session</button>
+            <a class="button">Edit Profile</a>
+            <a class="button" href="createworkoutsession/">Create Workout Session</a>
         </div>
         <div class="child-container2">
             <p>Current Scheduled Workouts</p>
             <div class="list-container">
-                <div class="div-child">
-                    {{currentWorkouts}}
-                </div>
-                <div class="div-child"></div>
-                <div class="div-child"></div> 
+                {% for session in userWorkoutSessions %}
+                    <div class="div-child">
+                        <div class="child-header">
+                            <p>{{session.name}}</p>
+                            <p>{{session.date}}</p>
+                        </div>
+                        <div class="child-content">
+                            {% for workout in session.exerciseList.all|slice:":3" %}
+                                <p>{{workout.exerciseName.name}}</p>
+                            {% endfor %}                                
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
         <div class="child-container3">

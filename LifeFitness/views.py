@@ -2,7 +2,7 @@
 # users = User.objects.all().select_related('profile')
 from django.shortcuts import render, redirect
 from django.contrib import auth
-from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout 
+from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout, CreateWorkoutSession 
 from django.http import HttpResponse
 from math import pow
 
@@ -114,14 +114,22 @@ def account(request):
             exerciseform = CreateExercise() # Fresh workout form after Workout Creation
             print('* SUCCESSFULY workout creation *')
 
-    currentWorkouts = request.user.workout_session
+    userWorkoutSessions = request.user.workout_session_set.all()
 
     context = { 
         'weight': request.user.fitnessprofile.currentWeight, 
         'height': request.user.fitnessprofile.currentheight,
         'BMI': request.user.fitnessprofile.BMI,
         'goal': request.user.fitnessprofile.goalWeight,
-        'currentWorkouts': request.user.workout_session_set.all()
+        'userWorkoutSessions': userWorkoutSessions,
     }
 
     return render(request, 'LifeFitness/account.html', context=context)
+
+def createWorkoutSession(request):
+
+    context = {
+        'form': CreateWorkoutSession(),
+    }
+
+    return render(request, 'LifeFitness/createworkoutsession.html', context=context)

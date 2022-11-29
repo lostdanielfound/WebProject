@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}LifeFitness | Create Session{% endblock title %}
+
+{% block body_content %}
+    <h2>Create Workout Session</h2>
+    <form method="post">
+        {% csrf_token %} 
+        <table>
+            <tbody>
+                {% crispy form %}
+                <tr>
+                    <td><button value="OK" class="submit button" type="submit">Submit</button></td>
+                </tr>
+            </tbody>
+        </table>       
+    </form>
+{% endblock body_content %}
