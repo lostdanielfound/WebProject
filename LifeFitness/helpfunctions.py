@@ -41,3 +41,4 @@ def CompleteExerciseList():
     for arr in df.values.tolist():
         ExList.append(arr[0])
     return(tuple(ExList))
+

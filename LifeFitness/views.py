@@ -128,6 +128,21 @@ def account(request):
 
 def createWorkoutSession(request):
 
+    # FIGURE OUT A WAY TO CREATE A TODO LIST WAY OF CREATEING THE WORKOUT SESSION
+    # Reference site: https://realpython.com/django-todo-lists/
+
+    if not request.user.is_authenticated:
+        return redirect('/login')
+
+    if request.method == "POST":
+        print(request.POST)
+        workoutsessionform = CreateWorkoutSession(request.POST)
+        
+        if workoutsessionform.is_valid(): 
+            workoutsessionform.save(request.user) # Create and save a new workout session
+            print('* SUCCESSFUL workout session creation *')
+            redirect('/account')
+
     context = {
         'form': CreateWorkoutSession(),
     }

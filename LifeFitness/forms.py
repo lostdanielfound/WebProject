@@ -1,9 +1,9 @@
 # Form guide: https://ordinarycoders.com/django-custom-user-profile#Creating%20a%20user%20page
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from LifeFitness.models import FitnessProfile, Exercise, Workout
+from LifeFitness.models import FitnessProfile, Exercise, Workout, Workout_Session, Workout_Session_Report
 from django import forms
-from LifeFitness.helpfunctions import convertBMI, CompleteExerciseList
+from LifeFitness.helpfunctions import convertBMI, CompleteExerciseList, CurrentExerciseList
 
 class RegistrationForm(UserCreationForm):
 
@@ -51,20 +51,21 @@ class CreateWorkout(forms.Form):
     RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
     SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
 
-class CreateWorkoutSession(forms.Form):
+class CreateWorkoutSession(forms.Form): 
     Name = forms.CharField(label="Session Name", help_text="Session Name")
     Date = forms.DateField(label="Workout Date", widget=forms.DateInput()) 
-    Exlist = forms.MultipleChoiceField(widget=forms.SelectMultiple, choices=CompleteExerciseList())
+    Exlist = forms.MultipleChoiceField(widget=forms.SelectMultiple, choices=CurrentExerciseList())
 
-    def save(self):
-        newWorkout = Workout()
+    def save(self, current_user):
+        newWorkout = Workout_Session()
         newWorkout.name = self.cleaned_data['Name']
         newWorkout.Date = self.cleaned_data['Date']
+        newWorkout.fitnesuser = current_user
         newWorkout.save() # Save the workout before adding exercises
 
-        # Now add the workout list
-        for exercise in self.cleaned_data['Exlist']: 
-            newWorkout.exerciseList.add(exercise)
+        # This needs to take in WORKOUT not Exercises
+        for exerciseid in self.cleaned_data['Exlist']: 
+            newWorkout.exerciseList.add(Exercise.objects.get(pk=exerciseid))
         newWorkout.save()
 
 class PostWorkoutReport(forms.Form):
