@@ -47,7 +47,7 @@ class Workout(models.Model):
 class Workout_Session(models.Model): # User attribute is defined as workout_session_set
     name = models.CharField(max_length=200,blank=True) # name of workout, not required
     date = models.DateField(auto_now=True) # Set Date to start the workout 
-    exerciseList = models.ManyToManyField(Workout) # List of Exercises for the workout
+    workoutList = models.ManyToManyField(Workout) # List of Exercises for the workout
     fitnesuser = models.ForeignKey(User, on_delete=models.CASCADE) # User and workout connection, User can have multiple Workouts 
 
     def __str__(self):

@@ -9,6 +9,19 @@
         <table>
             <tbody>
                 {% crispy form %}
+                {% for Workout in WorkoutList %}
+                    <tr class="Workout">
+                        <td>
+                            {{ Workout.exerciseName }}
+                        </td>
+                        <td>
+                            {{ Workout.repCount }}
+                        </td>
+                        <td>
+                            {{ Workout.setCount }}
+                        </td>
+                    </tr>
+                {% endfor %}
                 <tr>
                     <td><button value="OK" class="submit button" type="submit">Submit</button></td>
                 </tr>
