@@ -3,8 +3,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout, CreateWorkoutSession 
+from .models import Workout, Workout_Session
 from django.http import HttpResponse
-from math import pow
+import datetime
 
 def home(request):
     return render(request, 'LifeFitness/homepage.html', context={ request.user: 'user'})
@@ -126,12 +127,9 @@ def account(request):
 
     return render(request, 'LifeFitness/account.html', context=context)
 
-def createWorkoutSession(request):
+def createWorkoutSession(request, workoutlistID = -1):
 
-    # FIGURE OUT A WAY TO CREATE A TODO LIST WAY OF CREATEING THE WORKOUT SESSION
-    # Reference site: https://realpython.com/django-todo-lists/
-
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated: # If user isn't authenticated
         return redirect('/login')
 
     if request.method == "POST":
@@ -142,9 +140,34 @@ def createWorkoutSession(request):
             workoutsessionform.save(request.user) # Create and save a new workout session
             print('* SUCCESSFUL workout session creation *')
             redirect('/account')
+    elif request.method == "GET":
+        if workoutlistID == -1:
+            newWorkoutSession = Workout_Session()
+            newWorkoutSession.name = "" # default inital name
+            newWorkoutSession.date = datetime.datetime(2000, 1, 1) # default date
+            newWorkoutSession.fitnesuser = request.user
+            newWorkoutSession.save()
 
-    context = {
-        'form': CreateWorkoutSession(),
-    }
+        context = {
+            'ID': newWorkoutSession.pk,
+            'workoutlist': newWorkoutSession.workoutList.all(), 
+            'form': CreateWorkoutSession(),
+        }
 
     return render(request, 'LifeFitness/createworkoutsession.html', context=context)
+
+def createWorkout(request, workoutlistID):
+    
+    if not request.user.is_authenticated: # If user isn't authenticated
+        return redirect('/login')
+
+    if request.method == "POST":
+        ...
+
+    context = {
+        'form': CreateWorkout(),
+        'ID': workoutlistID, 
+    }
+    
+    return render(request, 'LifeFitness/createworkout.html', context=context)
+

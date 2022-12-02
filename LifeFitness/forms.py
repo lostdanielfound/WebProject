@@ -36,7 +36,7 @@ class HealthForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     Username = forms.CharField(label="Username", max_length=200)
-    Password = forms.CharField(label="Password", max_length=200)
+    Password = forms.CharField(label="Password", max_length=200, widget=forms.PasswordInput)
  
 class CreateExercise(forms.Form):
     Name = forms.CharField(label="Exercise name", max_length=100)
@@ -47,25 +47,23 @@ class CreateExercise(forms.Form):
         newExercise.save() 
 
 class CreateWorkout(forms.Form):
-    Exercise = forms.MultipleChoiceField(label="Choice Exercise", choices=CompleteExerciseList())
+    Exercise = forms.MultipleChoiceField(label="Choice Exercise", choices=CurrentExerciseList())
     RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
     SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
 
 class CreateWorkoutSession(forms.Form): 
     Name = forms.CharField(label="Session Name", help_text="Session Name")
     Date = forms.DateField(label="Workout Date", widget=forms.DateInput()) 
-    Exlist = forms.MultipleChoiceField(widget=forms.SelectMultiple, choices=CurrentExerciseList())
 
-    def save(self, current_user):
+    def save(self, current_user, WorkoutList):
         newWorkout = Workout_Session()
         newWorkout.name = self.cleaned_data['Name']
         newWorkout.Date = self.cleaned_data['Date']
         newWorkout.fitnesuser = current_user
-        newWorkout.save() # Save the workout before adding exercises
+        newWorkout.save() # Save the workout before adding workouts 
 
-        # This needs to take in WORKOUT not Exercises
-        for exerciseid in self.cleaned_data['Exlist']: 
-            newWorkout.exerciseList.add(Exercise.objects.get(pk=exerciseid))
+        for workout in WorkoutList: 
+            newWorkout.workoutList.add(workout)
         newWorkout.save()
 
 class PostWorkoutReport(forms.Form):

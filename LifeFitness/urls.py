@@ -9,4 +9,5 @@ urlpatterns = [
     path('account/', views.account, name="Account"),
     path('healthsignup/', views.healthsignup, name="healthSignup"),
     path('account/createworkoutsession/', views.createWorkoutSession, name="Create Workout Session"),
+    path('account/createworkoutsession/<int:workoutlistID>/', views.createWorkout, name="Create Workout")
 ]

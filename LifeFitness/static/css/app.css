@@ -49,6 +49,14 @@
     align-items: center;
 }
 
+.workout-container {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(31, 122, 201);
+    justify-content: center;
+    align-items: center;
+}
+
 .div-child {
     width: 95%;
     min-height: 100px;

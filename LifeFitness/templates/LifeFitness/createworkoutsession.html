@@ -9,19 +9,26 @@
         <table>
             <tbody>
                 {% crispy form %}
-                {% for Workout in WorkoutList %}
-                    <tr class="Workout">
-                        <td>
-                            {{ Workout.exerciseName }}
-                        </td>
-                        <td>
-                            {{ Workout.repCount }}
-                        </td>
-                        <td>
-                            {{ Workout.setCount }}
-                        </td>
-                    </tr>
-                {% endfor %}
+                <div class="workout-container">
+                    <div class="div-child">
+                    {% if ID > 0 %}
+                        {% for Workout in workoutlist %}
+                            <tr>
+                                <p>
+                                    {{ Workout.exerciseName }}
+                                </p>
+                                <p>
+                                    {{ Workout.repCount }}
+                                </p>
+                                <p>
+                                    {{ Workout.setCount }}
+                                </p>
+                            </tr>
+                        {% endfor %} 
+                    {% endif %} 
+                    </div>
+                    <a class="button success" href="{{ID}}">+</a>
+                </div>
                 <tr>
                     <td><button value="OK" class="submit button" type="submit">Submit</button></td>
                 </tr>

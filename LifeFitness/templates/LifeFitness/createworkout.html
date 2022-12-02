@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}LifeFitness | Create page{% endblock title %}
+{% block title %}LifeFitness | Add workout{% endblock title %}
 
 {% block body_content %}
     <h2>Create Workout</h2>
-    <form class="dateandtimeentry" method="post">
+    <form method="post">
         {% csrf_token %}
+        <p>{{ID}}</p>
         <table>
             <tbody>
-                {% crispy workoutform %}
+                {% crispy form %}
                 <tr>
-                    <td><button value="OK" class="submit button" type="submit">Submit</button></td>
+                    <td><button value="OK" class="submit button" type="submit">Add workout</button></td>
                 </tr>
             </tbody>
         </table>
