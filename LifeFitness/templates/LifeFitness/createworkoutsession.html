@@ -12,22 +12,19 @@
                 <div class="workout-container">
                     <div class="div-child">
                     {% if ID > 0 %}
+                        <tr>
+                            <td>
+                                <input type="text" name="ID" value="{{ID}}">
+                            </td>
+                        </tr>
                         {% for Workout in workoutlist %}
-                            <tr>
-                                <p>
-                                    {{ Workout.exerciseName }}
-                                </p>
-                                <p>
-                                    {{ Workout.repCount }}
-                                </p>
-                                <p>
-                                    {{ Workout.setCount }}
-                                </p>
-                            </tr>
-                        {% endfor %} 
+                            <p>{{ Workout.exerciseName }}</p>
+                            <p>{{ Workout.repCount }}</p>
+                            <p>{{ Workout.setCount }}</p>
+                        {% endfor %}
                     {% endif %} 
                     </div>
-                    <a class="button success" href="createworkout/{{ID}}">+</a>
+                    <a class="button success" href="/account/createworkout/{{ID}}">+</a>
                 </div>
                 <tr>
                     <td><button value="OK" class="submit button" type="submit">Submit</button></td>

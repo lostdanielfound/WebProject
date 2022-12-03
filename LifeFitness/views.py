@@ -6,7 +6,7 @@ from django.contrib import auth
 from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout, CreateWorkoutSession 
 from .models import Workout, Workout_Session
 from django.http import HttpResponse
-import datetime
+from datetime import datetime
 
 def home(request):
     return render(request, 'LifeFitness/homepage.html', context={ request.user: 'user'})
@@ -134,31 +134,35 @@ def createWorkoutSession(request, workoutlistID = -1):
         return redirect('/login')
 
     if request.method == "POST":
-        print(request.POST)
-        workoutsessionform = CreateWorkoutSession(request.POST)
-        
-        if workoutsessionform.is_valid(): 
-            workoutsessionform.save(request.user) # Create and save a new workout session
-            print('* SUCCESSFUL workout session creation *')
-            redirect('/account')
+        workoutlistID = request.POST.get("ID", "")
+        currentWorkoutSession = Workout_Session.objects.get(pk=workoutlistID) 
+        currentWorkoutSession.name = request.POST.get("Name", "") # Set the name
+        currentWorkoutSession.date = datetime.strptime(request.POST.get("Date", ""), "%m/%d/%Y") # Set the date
+
+        currentWorkoutSession.save() 
+
+        return redirect('/account')
     elif request.method == "GET":
         if workoutlistID == -1:
             newWorkoutSession = Workout_Session()
             newWorkoutSession.name = "" # default inital name
-            newWorkoutSession.date = datetime.datetime(2000, 1, 1) # default date
+            newWorkoutSession.date = datetime(2000, 1, 1) # default date
             newWorkoutSession.fitnesuser = request.user
             newWorkoutSession.save()
+
+            context = {
+                'ID': newWorkoutSession.pk,
+                'workoutlist': newWorkoutSession.workoutList.all(), 
+                'form': CreateWorkoutSession(),
+            }
         else: 
+            currentWorkoutSession = Workout_Session.objects.get(pk=workoutlistID) # get the current workout_session
 
-            # CAN PASS DATA, FIX BUG BRUH
-            ...
-
-        print(workoutlistID)
-        context = {
-            'ID': newWorkoutSession.pk,
-            'workoutlist': newWorkoutSession.workoutList.all(), 
-            'form': CreateWorkoutSession(),
-        }
+            context = {
+                'ID': currentWorkoutSession.pk,
+                'workoutlist': currentWorkoutSession.workoutList.all(),
+                'form': CreateWorkoutSession(),
+            }
 
     return render(request, 'LifeFitness/createworkoutsession.html', context=context)
 
@@ -166,8 +170,6 @@ def createWorkout(request, workoutlistID):
     
     if not request.user.is_authenticated: # If user isn't authenticated
         return redirect('/login')
-
-    print(request.GET.get('ID'))
 
     if request.method == "POST":
         # Take in the POST request and create a workout to add it to 
