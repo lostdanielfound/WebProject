@@ -47,9 +47,23 @@ class CreateExercise(forms.Form):
         newExercise.save() 
 
 class CreateWorkout(forms.Form):
-    Exercise = forms.MultipleChoiceField(label="Choice Exercise", choices=CurrentExerciseList())
+    Exercise = forms.ChoiceField(label="Choice Exercise", choices=CurrentExerciseList(), )
     RepCount = forms.IntegerField(label="Rep Count", max_value=100, min_value=0)
     SetCount = forms.IntegerField(label="Set Count", max_value=100, min_value=0)
+
+    def save(self, workoutlistID):
+        exerciseID = self.cleaned_data['Exercise']
+        print(exerciseID)
+        newWorkout = Workout() # Creating a new workout object
+
+        newWorkout.exerciseName = Exercise.objects.get(pk=exerciseID) # assign Exercise object to exerciseName
+        newWorkout.repCount = self.cleaned_data['RepCount']
+        newWorkout.setCount = self.cleaned_data['SetCount'] 
+        newWorkout.save() 
+
+        currentWS = Workout_Session.objects.get(pk=workoutlistID)
+        currentWS.workoutList.add(newWorkout) # add newWorkout to workoutList of workout_Session
+        currentWS.save() 
 
 class CreateWorkoutSession(forms.Form): 
     Name = forms.CharField(label="Session Name", help_text="Session Name")
