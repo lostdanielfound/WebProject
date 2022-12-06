@@ -3,6 +3,7 @@
 {% block title %}LifeFitness | Account{% endblock title %}
 
 {% block body_content %}
+<div class="bg-container">
     <div class="title-container">
         <h2>Welcome back {{user.username}}</h2>
     </div>
@@ -17,7 +18,7 @@
             <a class="button" href="createworkoutsession/">Create Workout Session</a>
         </div>
         <div class="child-container2">
-            <p>Current Scheduled Workouts</p>
+            <h3>Currently Scheduled Workouts</h3>
             <div class="list-container">
                 {% for session in userWorkoutSessions %}
                     <div class="div-child">
@@ -35,7 +36,7 @@
             </div>
         </div>
         <div class="child-container3">
-            <p>Past Workouts</p>
+            <h3>Past Workouts</h3>
             <div class="list-container">
                <div class="div-child">
                     <div class="child-header">
@@ -55,4 +56,5 @@
             </div>
         </div>
    </div>
+</div>
 {% endblock body_content %}

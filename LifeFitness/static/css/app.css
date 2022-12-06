@@ -1,5 +1,14 @@
-.base {
-    background-color:aquamarine;
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bg-container {
+    height: 100%;
+    width: 100%;
+    background-image: url("../assets/account-background.jpg");
+    background-size: cover;
 }
 
 .title-container {
@@ -11,40 +20,50 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background-color: pink;
 }
 
 .child-container1 {
     width: 400px;
     height: 300px;
-    background-color: blue;
-    border: 3;
-    border-color: aqua;
-    border-radius: 4px;
+    opacity: 0.9;
+    background-color: white;
+    border: 5px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
     padding: 10px;
 }
 
 .child-container2 {
-    width: 400px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
+    opacity: 0.9;
+    background-color: white;
     overflow-y: auto;
     border-style: solid;
     border: 3px;
-    background-color: blue;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .child-container3 {
-    width: 400px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
+    opacity: 0.9;
+    background-color: white;
     overflow-y: auto;
     border: 3px;
-    background-color: blue;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .list-container {
     display: flex;
     flex-direction: column;
-    background-color: rgb(31, 122, 201);
     justify-content: center;
     align-items: center;
 }
