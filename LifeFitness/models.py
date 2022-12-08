@@ -62,3 +62,13 @@ class Workout_Session_Report(models.Model):
 
     def __str__(self):
         return("Report object (" + str(self.pk) + ") -> " + self.workoutID.__str__())
+
+class Forum(models.Model):
+    forum_title = models.CharField(max_length=200)
+    description = models.TextField(max_length=400, blank=False)
+
+class Post(models.Model):
+    user_name = models.CharField(max_length=200, blank=True)
+    post_text = models.TextField(max_length=400, blank=False)
+    pub_date = models.DateTimeField(auto_now_add=True) # When the object is create, the date and time will be set to datetime.now() 
+    forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
