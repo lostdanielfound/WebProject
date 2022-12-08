@@ -121,7 +121,7 @@ def account(request):
     # Need to create a way to return only the workout sessions that are coming up 
     # and the workout session that have past after today. 
     upcomingWorkoutSessions = userWorkoutSessions.filter() # Not working, need work 
-    # https://docs.djangoproject.com/en/4.1/topics/db/queries/#field-lookups 
+    # https://docs.djangoproject.com/en/4.1/topics/db/queries/#field-lookupsk 
 
     context = { 
         'weight': request.user.fitnessprofile.currentWeight, 

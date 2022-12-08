@@ -62,13 +62,28 @@ class Workout_Session_Report(models.Model):
 
     def __str__(self):
         return("Report object (" + str(self.pk) + ") -> " + self.workoutID.__str__())
-
+        
 class Forum(models.Model):
     forum_title = models.CharField(max_length=200)
     description = models.TextField(max_length=400, blank=False)
 
+    def __str__(self): 
+        return(self.forum_title.__str__() + " Forum, object (" + str(self.pk) + ")")
+
 class Post(models.Model):
     user_name = models.CharField(max_length=200, blank=True)
+    post_title = models.CharField(max_length=100) 
     post_text = models.TextField(max_length=400, blank=False)
     pub_date = models.DateTimeField(auto_now_add=True) # When the object is create, the date and time will be set to datetime.now() 
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
+
+    def __str__(self): 
+        return("Post: " + self.post_title + ", object (" + str(self.pk) + ")")
+
+class Post_Comment(models.Model):
+    user_name = models.CharField(max_length=200)
+    comment = models.CharField(max_length=200)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self): 
+        return("Comment by: " + self.user_name + ", on Post: " + self.post.post_title + ", object (" + str(self.pk) + ")")
