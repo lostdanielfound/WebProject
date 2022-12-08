@@ -30,7 +30,7 @@
         <div class="top-bar-right">
             <ul class="menu">
                 {% if user.is_authenticated %}
-                    <li>Welcome back {{ user.username }}</li>
+                    <li id="user-text">Welcome back {{ user.username }}</li>
                     <li><a class="alert button" href="/logout">logout</a></li>
                     <li><a class="button" href="/signup">Sign up</a></li>
                 {% else %}
@@ -42,14 +42,7 @@
     </div>
     {% endblock navigation_bar %}
 
-    {% block body_content %}
-    <div class="callout large primary">
-        <div class="row column text-center">
-            <h1>LifeFitness</h1>
-            <h2 class="subheader">Easy to use Fitness Tracker!</h2>
-        </div>
-    </div>
-    {% endblock body_content %}
+    {% block body_content %}{% endblock body_content %}
 
     
     {% block scripts %}

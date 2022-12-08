@@ -4,16 +4,34 @@ html, body {
     overflow: hidden;
 }
 
-.bg-container {
+.bg-container-account {
     height: 100%;
     width: 100%;
     background-image: url("../assets/account-background.jpg");
     background-size: cover;
 }
 
+.bg-container-homepage {
+    height: 100%;
+    width: 100%;
+    background-image: url("../assets/homepage-background.jpg");
+    background-size: cover;
+}
+
+.title-banner {
+    opacity: 0.80;
+}
+
 .title-container {
     padding: 5px;
+}
 
+li {
+    padding-right: 10px;
+}
+
+#user-text {
+    align-self: center;
 }
 
 .parent-container {
