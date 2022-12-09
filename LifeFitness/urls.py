@@ -11,5 +11,7 @@ urlpatterns = [
     path('account/createworkoutsession/', views.createWorkoutSession, name="Create-Workout-Session"),
     path('account/createworkoutsession/<int:workoutlistID>/', views.createWorkoutSession, name='Create-Workout-Session-data'),
     path('account/createworkout/<int:workoutlistID>/', views.createWorkout, name="Create Workout"),
-    path('forum', views.forum, name='forum')
+    path('forums/', views.forums, name='forums'),
+    path('posts_page/<int:forumsID>/', views.posts_page, name='posts_page'),
+    path('post/<int:postID>/', views.post, name="post"),
 ]

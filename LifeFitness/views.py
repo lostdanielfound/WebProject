@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import auth
 from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout, CreateWorkoutSession 
-from .models import Workout, Workout_Session
+from .models import Workout, Workout_Session, Forum, Post, Post_Comment
 from django.http import HttpResponse
 from datetime import datetime
 
@@ -192,3 +192,34 @@ def createWorkout(request, workoutlistID):
     
     return render(request, 'LifeFitness/createworkout.html', context=context)
 
+def forums(request):
+
+    context = {
+        'Forums':  Forum.objects.all()
+    }
+
+    return render(request, 'LifeFitness/forum.html', context=context)
+
+def posts_page(request, forumID):
+
+    Forum_list = Forum.objects.get(pk=forumID)
+    
+    context = {
+        'forum_list': Forum_list,
+    }
+
+    return render(request, 'LifeFitness/posts_page.html', context=context)
+    
+def post(request, postID):
+    
+    if not request.user.is_authenticated: # if user isn't authenticated then it should be anonymous
+        user_name = "Anonymous"
+    user_name = request.user.username
+
+    post = Post.objects.get(pk=postID) 
+
+    context = {
+        'post': post,
+    }
+
+    return render(request, 'LifeFitness/post.html', context=context)
