@@ -18,6 +18,11 @@ html, body {
     background-size: cover;
 }
 
+.bg-container-forum {
+    height: 100%;
+    width: 100%;
+}
+
 .title-banner {
     opacity: 0.80;
 }
@@ -118,3 +123,44 @@ li {
     justify-content: space-evenly;
     padding: 5px; 
 }
+
+.forums-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.forum-object {
+    padding: 10px;
+    border: 20px;
+    border-radius: 5px;
+    width: 300px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.forum-header {
+    display: flex;
+    flex: 1/8;
+    border: 2px;
+    border-color: black;
+    margin: 2px;
+    border-style: solid;
+    padding: 5px;
+    font-size: larger;
+}
+
+.forum-description {
+    display: flex;
+    flex: 7/8;
+    border: 2px;
+    border-color: black;
+    margin: 2px;
+    border-style: solid;
+    padding: 5px;
+}
+

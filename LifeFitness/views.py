@@ -214,12 +214,14 @@ def post(request, postID):
     
     if not request.user.is_authenticated: # if user isn't authenticated then it should be anonymous
         user_name = "Anonymous"
-    user_name = request.user.username
+    else:
+        user_name = request.user.username
 
     post = Post.objects.get(pk=postID) 
-
+    comment_list = post.post_comment_set.all()
     context = {
         'post': post,
+        'comment_list': comment_list,
     }
 
     return render(request, 'LifeFitness/post.html', context=context)
