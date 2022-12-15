@@ -202,7 +202,7 @@ def forums(request):
 
 def posts_page(request, forumsID):
 
-    Forum_list = Forum.objects.get(pk=forumsID)
+    Forum_list = Forum.objects.get(pk=forumsID).post_set.all() # Returns all the posts under that forum 
     
     context = {
         'forum_list': Forum_list,
@@ -210,7 +210,7 @@ def posts_page(request, forumsID):
 
     return render(request, 'LifeFitness/posts_page.html', context=context)
     
-def post(request, postID):
+def post(request, forumsID, postID): # forumsID is set as a placeholder but isn't used
 
     if request.method == "POST":
         newComment = CreateComment(request.POST) # User posts a comment on a post 
@@ -221,13 +221,15 @@ def post(request, postID):
                 user_name = "Anonymous"
 
             newComment.save(user_name, postID)
-            return redirect('/post/' + str(postID))
+            return redirect('/forums/posts_page/' + str(forumsID) + '/post/' + str(postID))
 
     post = Post.objects.get(pk=postID) 
     comment_list = post.post_comment_set.all()
     context = {
+        'form': CreateComment(),
         'post': post,
         'comment_list': comment_list,
+        'post_title': post.post_title,
     }
 
     return render(request, 'LifeFitness/post.html', context=context)
@@ -257,7 +259,7 @@ def createpost(request, forumsID):
                 user_name = "Anonymous"
 
             newPost.save(user_name, forumsID)
-            return redirect('/posts_page/' + str(forumsID))
+            return redirect('/forums/posts_page/' + str(forumsID))
 
     context = {
         'Form': CreatePost()

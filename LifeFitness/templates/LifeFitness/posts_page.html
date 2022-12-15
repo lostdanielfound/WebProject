@@ -1,3 +1,30 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block title %}LifeFitness | Posts{% endblock title %}
+
+{% block body_content %}
+<div class="bg-container-forum">
+    <div class="title-container">
+        <h2>Posts about {{forum_list.forum_title}}</h2>
+    </div>
+    <a href="createpost" class="button success">Create Post</a>
+    <div class="post-container">
+        {% for post in forum_list %}
+        <a href="post/{{post.pk}}">
+            <div class="post-object">
+                <div class="post-header">
+                    <div class="post-title">
+                        <p><b>{{post.post_title|slice:":30"}}</b></p>
+                        <p>{{post.pub_date}}</p>
+                    </div>
+                    <p>{{post.user_name}}</p>
+                </div>
+                <div class="post-description">
+                    <p>{{post.post_text}}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body_content %}

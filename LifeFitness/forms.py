@@ -103,7 +103,7 @@ class CreatePost(forms.Form):
 
     def save(self, current_user, ForumID):
         newPost = Post()
-        newPost.user_name = current_user.username
+        newPost.user_name = current_user
         newPost.post_title = self.cleaned_data['Title']
         newPost.post_text = self.cleaned_data['Post_Text']
         newPost.forum = Forum.objects.get(pk=ForumID)
@@ -114,7 +114,7 @@ class CreateComment(forms.Form):
 
     def save(self, current_user, PostId):
         newComment = Post_Comment()
-        newComment.user_name = current_user.username
+        newComment.user_name = current_user
         newComment.comment = self.cleaned_data['Comment_Text']
         newComment.post = Post.objects.get(pk=PostId)
         newComment.save()

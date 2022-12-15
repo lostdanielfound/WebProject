@@ -15,8 +15,8 @@ urlpatterns = [
 
     path('forums/', views.forums, name='forums'),
     path('forums/posts_page/<int:forumsID>/', views.posts_page, name='posts_page'),
-    path('post/<int:postID>/', views.post, name="post"),
+    path('forums/posts_page/<int:forumsID>/post/<int:postID>/', views.post, name="post"),
 
     path('forums/createforum/', views.createforum, name='createforum'),
-    path('createpost/<int:forumsID>/', views.createpost, name='createpost'), 
+    path('forums/posts_page/<int:forumsID>/createpost', views.createpost, name='createpost'), 
 ]
