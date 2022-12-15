@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import auth
-from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout, CreateWorkoutSession 
+from .forms import RegistrationForm, LoginForm, HealthForm, CreateExercise, CreateWorkout, CreateWorkoutSession, CreateForum, CreatePost, CreateComment
 from .models import Workout, Workout_Session, Forum, Post, Post_Comment
 from django.http import HttpResponse
 from datetime import datetime
@@ -200,9 +200,9 @@ def forums(request):
 
     return render(request, 'LifeFitness/forum.html', context=context)
 
-def posts_page(request, forumID):
+def posts_page(request, forumsID):
 
-    Forum_list = Forum.objects.get(pk=forumID)
+    Forum_list = Forum.objects.get(pk=forumsID)
     
     context = {
         'forum_list': Forum_list,
@@ -211,11 +211,17 @@ def posts_page(request, forumID):
     return render(request, 'LifeFitness/posts_page.html', context=context)
     
 def post(request, postID):
-    
-    if not request.user.is_authenticated: # if user isn't authenticated then it should be anonymous
-        user_name = "Anonymous"
-    else:
-        user_name = request.user.username
+
+    if request.method == "POST":
+        newComment = CreateComment(request.POST) # User posts a comment on a post 
+        if newComment.is_valid(): 
+            if request.user.is_authenticated: 
+                user_name = request.user.username
+            else: 
+                user_name = "Anonymous"
+
+            newComment.save(user_name, postID)
+            return redirect('/post/' + str(postID))
 
     post = Post.objects.get(pk=postID) 
     comment_list = post.post_comment_set.all()
@@ -225,3 +231,36 @@ def post(request, postID):
     }
 
     return render(request, 'LifeFitness/post.html', context=context)
+
+def createforum(request): 
+
+    if request.method == "POST":
+        newForum = CreateForum(request.POST)
+        if newForum.is_valid(): 
+            newForum.save()
+            return redirect('/forums/')
+
+    context = {
+        'Form': CreateForum()
+    }
+
+    return render(request, 'LifeFitness/createforum.html', context=context)
+
+def createpost(request, forumsID):
+
+    if request.method == "POST":
+        newPost = CreatePost(request.POST)
+        if newPost.is_valid():
+            if request.user.is_authenticated: 
+                user_name = request.user.username
+            else:
+                user_name = "Anonymous"
+
+            newPost.save(user_name, forumsID)
+            return redirect('/posts_page/' + str(forumsID))
+
+    context = {
+        'Form': CreatePost()
+    }
+
+    return render(request, 'LifeFitness/createpost.html', context=context)

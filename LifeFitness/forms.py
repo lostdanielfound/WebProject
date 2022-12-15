@@ -1,7 +1,7 @@
 # Form guide: https://ordinarycoders.com/django-custom-user-profile#Creating%20a%20user%20page
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from LifeFitness.models import FitnessProfile, Exercise, Workout, Workout_Session, Workout_Session_Report
+from LifeFitness.models import FitnessProfile, Exercise, Workout, Workout_Session, Workout_Session_Report, Forum, Post, Post_Comment
 from django import forms
 from LifeFitness.helpfunctions import convertBMI, CompleteExerciseList, CurrentExerciseList
 
@@ -84,4 +84,37 @@ class PostWorkoutReport(forms.Form):
     ...
 # https://stackoverflow.com/questions/3367091/whats-the-cleanest-simplest-to-get-running-datepicker-in-django
 
+
 # widgets: https://docs.djangoproject.com/en/4.1/ref/forms/widgets/#django.forms.TextInput
+
+class CreateForum(forms.Form):
+    Name = forms.CharField(label="Forum Name", help_text="Forum Name")
+    Description = forms.CharField(label="Forum Description", help_text="Forum Description")
+
+    def save(self):
+        newForum = Forum()
+        newForum.forum_title = self.cleaned_data['Name']
+        newForum.description = self.cleaned_data['Description']
+        newForum.save()
+
+class CreatePost(forms.Form):
+    Title = forms.CharField(label="Post Title", help_text="Post Title")
+    Post_Text = forms.CharField(label="Body Text", help_text="Body Text")
+
+    def save(self, current_user, ForumID):
+        newPost = Post()
+        newPost.user_name = current_user.username
+        newPost.post_title = self.cleaned_data['Title']
+        newPost.post_text = self.cleaned_data['Post_Text']
+        newPost.forum = Forum.objects.get(pk=ForumID)
+        newPost.save()
+
+class CreateComment(forms.Form):
+    Comment_Text = forms.CharField(label="Comment...", help_text="Comment...")
+
+    def save(self, current_user, PostId):
+        newComment = Post_Comment()
+        newComment.user_name = current_user.username
+        newComment.comment = self.cleaned_data['Comment_Text']
+        newComment.post = Post.objects.get(pk=PostId)
+        newComment.save()
